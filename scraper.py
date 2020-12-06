@@ -106,7 +106,7 @@ def main():
         if len(results) > 0:
             print('\nExiting without updating database since this company/mutual fund has already been scraped.')
             cursor.close()
-            cxn.close()
+            cnx.close()
             break
 
         # upsert current company/mutual fund to sec_companies table
