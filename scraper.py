@@ -4,6 +4,7 @@ import re
 import lxml
 import requests
 from bs4 import BeautifulSoup
+from tqdm import tqdm
 
 sec_url = 'https://www.sec.gov'
 
@@ -13,7 +14,7 @@ def get_request(url):
 
 def create_url(cik):
     'Returns url of SEC 13F filings given a CIK.'
-    return 'https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK={}&owner=exclude&count=40'.format(cik)
+    return f'https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK={cik}&owner=exclude&count=40'
 
 def get_user_input():
     'Prompts user to enter a CIK number.'
@@ -55,14 +56,22 @@ for document_tag in document_tags:
     if file_tag is None:
         continue
 
+    print(f'\nScraping Data from {company_name} (CIK: {requested_cik})...')
+    print('--------------------------------------------------------------')
+    print('Fetching xml file... ⌛')
+
     # scrape & parse the xml file
     xml_url = file_tag.get('href')
     response_xml = get_request(sec_url + xml_url)
     soup_xml = BeautifulSoup(response_xml.content, "lxml")
 
+    print('Xml file fetched! 😊')
+    print('\nParsing Progress:')
+    
+    # find all holdings
     invstOrSecs = soup_xml.body.findAll(re.compile('invstorsec'))
-    for invstOrSec in invstOrSecs:
-        print(invstOrSec.text)
+    for invstOrSec in tqdm(invstOrSecs, bar_format='{l_bar}{bar:20}{r_bar}{bar:-20b}'):
+        continue
 
     break
 
