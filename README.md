@@ -16,8 +16,7 @@ In addition, note that the documentation is a mix of the original documentation 
 - Run `pipenv install`.
 - Run `python scraper.py` within a `pipenv shell` (or `pipenv run python scraper.py`).
 - When prompted, enter the 10-digit CIK number of a mutual fund.
-- Happy investing! 
-❤️ 💵 💰
+- Happy investing! ❤️ 💵 💰
 
 #### Key Dependencies
 
