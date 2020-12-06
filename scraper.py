@@ -54,16 +54,52 @@ def main():
         print('Xml file fetched! 😊')
         print('\nParsing Progress:')
 
+        stock_data = []
         holdings_data = []
         
         # find all holdings
         invstOrSecs = soup_xml.body.findAll(re.compile('invstorsec'))
         for invstOrSec in tqdm(invstOrSecs, bar_format='{l_bar}{bar:20}{r_bar}{bar:-20b}'):
-            holding = {}
+            stock = {}
+            holding = { 'held_by': requested_cik }
 
-            # parse name
+            # parse isin (if there is no isin value we skip it)
+            isin_text = invstOrSec.find('identifiers').find('isin')
+            if not isin_text:
+                continue 
+            stock['isin'] = isin_text.get('value')
+            holding['isin'] = isin_text.get('value')
+
+            # parse name and title
             name_text = invstOrSec.find('name').text
-            holding['name'] = name_text if name_text != 'N/A' else None
+            title_text = invstOrSec.find('title').text
+            stock['name'] = name_text if name_text != 'N/A' else None
+            stock['title'] = title_text if title_text != 'N/A' else None
+
+            # parse lei and cusip
+            lei_text = invstOrSec.find('lei').text
+            cusip_text = invstOrSec.find('cusip').text 
+            stock['lei'] = lei_text if lei_text != 'N/A' else None 
+            stock['cusip'] = cusip_text if cusip_text != 'N/A' else None 
+
+            # parse units, balance, and value in USD if applicable (if the 
+            # value is not in USD we skip it)
+            units_text = invstOrSec.find('units').text
+            balance_text = invstOrSec.find('balance').text
+            val_usd_text = invstOrSec.find('valusd').text
+            holding['units'] = units_text if units_text != 'N/A' else None 
+            holding['balance'] = int(float(balance_text)) if balance_text != 'N/A' else 0
+            holding['val_usd'] = int(float(val_usd_text)) if val_usd_text != 'N/A' else 0
+
+            # store data
+            stock_data.append(stock)
+            holdings_data.append(holding)
+
+        # upsert current company/mutual fund to sec_company table
+
+        # upsert each stock to stock table
+
+        # add each holding to SEC table
 
         break
 
