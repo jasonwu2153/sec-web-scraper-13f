@@ -1,8 +1,8 @@
-def insert_sec_company(cik, name):
+def insert_sec_company_sql(cik, name):
     'Returns sql statement for inserting one new entry into sec_companies table.'
     return f'INSERT INTO sec_companies (cik, name, created_at) VALUES ({cik}, {name}, now());'
 
-def insert_stocks(stocks):
+def insert_stocks_sql(stocks):
     '''
     Takes in an array of stock dictionaries formatted like so:
 
@@ -18,7 +18,7 @@ def insert_stocks(stocks):
     '''
     pass 
 
-def insert_holdings(holdings):
+def insert_holdings_sql(holdings):
     '''
     Takes in array of holding dictionaries formatted like so:
 
