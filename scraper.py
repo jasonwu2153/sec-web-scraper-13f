@@ -76,7 +76,7 @@ def main():
             name_text = invstOrSec.find('name').text
             title_text = invstOrSec.find('title').text
             legal_entity['name'] = name_text if name_text != 'N/A' else None
-            legal_entity['title'] = title_text if title_text != 'N/A' else None
+            legal_entity['title'] = title_text.upper() if title_text != 'N/A' else None
 
             # parse isin & cusip
             isin_text = invstOrSec.find('identifiers').find('isin')
