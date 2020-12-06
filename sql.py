@@ -6,7 +6,7 @@ every single time is expensive. Instead, if we get a duplicate key error we igno
 
 def insert_sec_company_sql(cik, name):
     'Returns sql statement for inserting one new entry into sec_companies table.'
-    return f'INSERT IGNORE INTO sec_companies (cik, name, created_at) VALUES ({cik}, {name}, now());'
+    return f'INSERT IGNORE INTO sec_companies (cik, name, created_at) VALUES (\'{cik}\', \'{name}\', now());'
 
 def insert_stocks_sql(stocks):
     '''

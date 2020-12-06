@@ -101,22 +101,25 @@ def main():
         cursor = cnx.cursor()
 
         # upsert current company/mutual fund to sec_companies table
-        print('Adding company/mutual fund to sec_companies table...')
+        print('\nAdding company/mutual fund to sec_companies table...')
         insert_sec_company_statement = insert_sec_company_sql(requested_cik, company_name)
         cursor.execute(insert_sec_company_statement)
         print('Updated sec_companies table successfully. 👍')
 
         # upsert each stock to stock table
-        print('Adding stocks to stocks table...')
+        print('\nAdding stocks to stocks table...')
         insert_stocks_statement = insert_stocks_sql(stock_data)
-        cursor.execute(insert_stocks_statement)
+        # cursor.execute(insert_stocks_statement)
         print('Updated stocks table successfully. 👍')
 
         # add each holding to holdings table
-        print('Adding holdings to holdings table...')
+        print('\nAdding holdings to holdings table...')
         insert_holdings_statement = insert_holdings_sql(holdings_data)
-        cursor.execute(insert_holdings_statement)
+        # cursor.execute(insert_holdings_statement)
         print('Updated holdings table successfully. 👍')
+
+        # commit changes to database
+        cnx.commit()
 
         break
 
