@@ -4,8 +4,9 @@ import lxml
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 
-from db import db
+from db import cnx
 from helpers import create_url, get_request, get_user_input, sec_url
+from sql import insert_sec_company_sql, insert_stocks_sql, insert_holdings_sql
 
 def main():
     # ask user for CIK number
@@ -97,10 +98,16 @@ def main():
             holdings_data.append(holding)
 
         # upsert current company/mutual fund to sec_company table
+        insert_sec_company_statement = insert_sec_company_sql(requested_cik, company_name)
+        print(insert_sec_company_statement)
 
         # upsert each stock to stock table
+        insert_stock_statement = insert_stocks_sql(stock_data)
+        print(insert_stock_statement)
 
         # add each holding to SEC table
+        insert_holdings_statement = insert_holdings_sql(holdings_data)
+        print(insert_holdings_statement)
 
         break
 

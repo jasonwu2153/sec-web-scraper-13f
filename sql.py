@@ -23,7 +23,7 @@ def insert_stocks_sql(stocks):
     Returns sql statement for inserting all of the stock entries into stocks table.
     '''
     header = 'INSERT IGNORE INTO stocks (isin, name, title, lei, cusip, created_at) VALUES'
-    stock_values = map(lambda x: f'('{x['isin']}', '{x['name']}', '{x['title']}', '{x['lei']}', '{x['cusip']}', now())', stocks)
+    stock_values = map(lambda x: f'(\'{x["isin"]}\', \'{x["name"]}\', \'{x["title"]}\', \'{x["lei"]}\', \'{x["cusip"]}\', now())', stocks)
     value_string = ', '.join(stock_values)
     return header + ' ' +  value_string + ';'
 
@@ -42,6 +42,6 @@ def insert_holdings_sql(holdings):
     Returns sql statement for inserting all of the holding entries into holdings table.
     '''
     header = 'INSERT IGNORE INTO holdings (held_by, isin, units, balance, val_usd, created_at) VALUES'
-    holding_values = map(lambda x: f'('{x['held_by']}', '{x['isin']}', '{x['units']}', '{x['balance']}', '{x['val_usd']}')', holdings)
+    holding_values = map(lambda x: f'(\'{x["held_by"]}\', \'{x["isin"]}\', \'{x["units"]}\', {x["balance"]}, {x["val_usd"]})', holdings)
     value_string = ', '.join(holding_values)
     return header + ' ' + value_string + ';'
