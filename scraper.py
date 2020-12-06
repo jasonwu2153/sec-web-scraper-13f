@@ -6,7 +6,7 @@ from tqdm import tqdm
 
 from db import cnx
 from helpers import create_url, get_request, get_user_input, sec_url
-from sql import check_sec_company_present, insert_sec_company_sql, insert_stocks_sql, insert_holdings_sql
+from sql import check_sec_company_present, insert_sec_company_sql, insert_legal_entity_sql, insert_holdings_sql
 
 def main():
     # ask user for CIK number
@@ -117,7 +117,7 @@ def main():
         # upsert each stock to stock table
         print('\nAdding stocks to stocks table...')
         stock_tuples = list(map(lambda x: (x['isin'], x['name'], x['title'], x['lei'], x['cusip']), stock_data))
-        cursor.executemany(insert_stocks_sql, stock_tuples)
+        cursor.executemany(insert_legal_entity_sql, stock_tuples)
         print('Updated stocks table successfully. 👍')
 
         # add each holding to holdings table
