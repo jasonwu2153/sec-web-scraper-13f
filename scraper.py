@@ -1,4 +1,3 @@
-import csv
 import re
 
 import lxml
@@ -67,33 +66,16 @@ for document_tag in document_tags:
 
     print('Xml file fetched! 😊')
     print('\nParsing Progress:')
+
+    holdings_data = []
     
     # find all holdings
     invstOrSecs = soup_xml.body.findAll(re.compile('invstorsec'))
     for invstOrSec in tqdm(invstOrSecs, bar_format='{l_bar}{bar:20}{r_bar}{bar:-20b}'):
-        continue
+        holding = {}
+
+        # parse name
+        name_text = invstOrSec.find('name').text
+        holding['name'] = name_text if name_text != 'N/A' else None
 
     break
-
-
-'''
-# Find latest 13F report for mutual fund
-response_two = get_request(sec_url + tags[1]['href'])
-soup_two = BeautifulSoup(response_two.text, "html.parser")
-tags_two = soup_two.findAll('a', attrs={'href': re.compile('xml')})
-xml_url = tags_two[0].get('href')
-
-response_xml = get_request(sec_url + xml_url)
-soup_xml = BeautifulSoup(response_xml.content, "lxml")
-
-# Find all issuers
-issuers = soup_xml.body.findAll(re.compile('nameofissuer'))
-for issuer in issuers:
-    print(issuer.text)
-
-# Write issuer names to TSV file
-with open('{}.tsv'.format(requested_cik), 'wt') as out_file:
-    tsv_writer = csv.writer(out_file, delimiter='\t')
-    for issuer in issuers:
-        tsv_writer.writerow([issuer.text])
-'''
