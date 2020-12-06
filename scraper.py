@@ -58,7 +58,7 @@ def main():
 
         stock_data = []
         holdings_data = []
-        
+
         # find all holdings
         invstOrSecs = soup_xml.body.findAll(re.compile('invstorsec'))
         for invstOrSec in tqdm(invstOrSecs, bar_format='{l_bar}{bar:20}{r_bar}{bar:-20b}'):
@@ -97,17 +97,26 @@ def main():
             stock_data.append(stock)
             holdings_data.append(holding)
 
-        # upsert current company/mutual fund to sec_company table
+        # create db cursor
+        cursor = cnx.cursor()
+
+        # upsert current company/mutual fund to sec_companies table
+        print('Adding company/mutual fund to sec_companies table...')
         insert_sec_company_statement = insert_sec_company_sql(requested_cik, company_name)
-        print(insert_sec_company_statement)
+        cursor.execute(insert_sec_company_statement)
+        print('Updated sec_companies table successfully. 👍')
 
         # upsert each stock to stock table
-        insert_stock_statement = insert_stocks_sql(stock_data)
-        print(insert_stock_statement)
+        print('Adding stocks to stocks table...')
+        insert_stocks_statement = insert_stocks_sql(stock_data)
+        cursor.execute(insert_stocks_statement)
+        print('Updated stocks table successfully. 👍')
 
-        # add each holding to SEC table
+        # add each holding to holdings table
+        print('Adding holdings to holdings table...')
         insert_holdings_statement = insert_holdings_sql(holdings_data)
-        print(insert_holdings_statement)
+        cursor.execute(insert_holdings_statement)
+        print('Updated holdings table successfully. 👍')
 
         break
 
