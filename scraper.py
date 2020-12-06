@@ -4,6 +4,7 @@ import lxml
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 
+from db import db
 from helpers import create_url, get_request, get_user_input, sec_url
 
 def main():

@@ -13,6 +13,7 @@ In addition, note that the documentation is a mix of the original documentation 
 
 #### Getting Started
 - Make sure you have `pipenv` set up on your machine.
+- Edit the contents of `db.py` to match the database you are trying to connect to.
 - Run `pipenv install`.
 - Run `python scraper.py` within a `pipenv shell` (or `pipenv run python scraper.py`).
 - When prompted, enter the 10-digit CIK number of a mutual fund.
@@ -24,6 +25,7 @@ In addition, note that the documentation is a mix of the original documentation 
 - [lxml](https://lxml.de/), Python library for processing XML and HTML
 - [Beautiful Soup](https://pypi.org/project/beautifulsoup4/), Python library for scraping information from Web pages
 - [re](https://docs.python.org/3/library/re.html), Python module for using regular expressions
+- [MySQL Python Connector](https://dev.mysql.com/doc/connector-python/en/), Python module for connecting to a MySQL database.
 
 ## Contributor
 - [Jason Wu (Yale University '22)](https://github.com/jasonwu2153)
