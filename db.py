@@ -6,5 +6,6 @@ from mysql import connector
 db = connector.connect(
     host="localhost",
     user="root",
-    password=""
+    password="",
+    database="stock_scrape"
 )
