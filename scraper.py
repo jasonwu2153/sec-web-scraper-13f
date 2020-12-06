@@ -107,8 +107,8 @@ def main():
 
         # upsert each stock to stock table
         print('\nAdding stocks to stocks table...')
-        insert_stocks_statement = insert_stocks_sql(stock_data)
-        # cursor.execute(insert_stocks_statement)
+        stock_tuples = list(map(lambda x: (x['isin'], x['name'], x['title'], x['lei'], x['cusip']), stock_data))
+        cursor.executemany(insert_stocks_sql, stock_tuples)
         print('Updated stocks table successfully. 👍')
 
         # add each holding to holdings table

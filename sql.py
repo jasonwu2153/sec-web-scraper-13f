@@ -5,25 +5,7 @@ every single time is expensive. Instead, if we get a duplicate key error we igno
 '''
 
 insert_sec_company_sql = 'INSERT IGNORE INTO sec_companies (cik, name, created_at) VALUES (%s, %s, now());'
-
-def insert_stocks_sql(stocks):
-    '''
-    Takes in an array of stock dictionaries formatted like so:
-
-    {
-        'isin': 'value',
-        'name': 'value',
-        'title': 'value',
-        'lei': 'value',
-        'cusip': 'value'
-    }
-
-    Returns sql statement for inserting all of the stock entries into stocks table.
-    '''
-    header = 'INSERT IGNORE INTO stocks (isin, name, title, lei, cusip, created_at) VALUES'
-    stock_values = map(lambda x: f'(\'{x["isin"]}\', \'{x["name"]}\', \'{x["title"]}\', \'{x["lei"]}\', \'{x["cusip"]}\', now())', stocks)
-    value_string = ', '.join(stock_values)
-    return header + ' ' +  value_string + ';'
+insert_stocks_sql = 'INSERT IGNORE INTO stocks (isin, name, title, lei, cusip, created_at) VALUES (%s, %s, %s, %s, %s, now());'
 
 def insert_holdings_sql(holdings):
     '''
