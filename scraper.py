@@ -31,9 +31,8 @@ soup = BeautifulSoup(response.text, 'html.parser')
 company_name_text = soup.find('span', {'class': 'companyName'}).getText()
 company_name = re.sub(' CIK#.*$', '', company_name_text)
 
-# find all document tags; a document tag 
-# links to another route containing the 
-# relevant filing docs
+# find all document tags; a document tag links to another 
+# route containing the relevant filing docs
 document_tags = soup.findAll('a', id="documentsbutton")
 
 # for each document tag, try to find the latest primary_doc.xml file
@@ -44,23 +43,23 @@ for document_tag in document_tags:
     response = get_request(sec_url + document_tag['href'])
     soup = BeautifulSoup(response.text, "html.parser")
 
-    #
-    file_tags = soup.findAll(
+    # find file tag labeled primary_doc.xml; this is the 
+    # standard filename for NPORT-P filings
+    file_tag = soup.find(
         'a',
         text='primary_doc.xml',
         attrs={'href': re.compile('.*primary_doc.xml$')}
     )
 
-    # if there are no file tags move on to the next document url
-    if len(file_tags) == 0:
+    # if there is no primary_doc.xml skip this document page
+    if file_tag is None:
         continue
 
-    # ow we parse the primary_doc
-    xml_url = file_tags[0].get('href')
+    # scrape & parse the xml file
+    xml_url = file_tag.get('href')
     response_xml = get_request(sec_url + xml_url)
     soup_xml = BeautifulSoup(response_xml.content, "lxml")
 
-    # find all invstOrSec tags
     invstOrSecs = soup_xml.body.findAll(re.compile('invstorsec'))
     for invstOrSec in invstOrSecs:
         print(invstOrSec.text)
