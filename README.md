@@ -28,8 +28,8 @@ In addition, note that the documentation is a mix of the original documentation 
 
 ## Contributor
 - [Jason Wu (Yale University '22)](https://github.com/jasonwu2153)
-- Kevin Zhang
-- Michael Lewkowicz
+- [Kevin Zhang (Yale University '23)](https://github.com/kevinz917)
+- [Michael Lewkowicz (Yale University '23)](https://github.com/MLewkowicz)
 - [Gary Pang (CodeWritingCow)](https://github.com/CodeWritingCow)
 
 ## References
