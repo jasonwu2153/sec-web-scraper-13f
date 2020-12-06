@@ -10,7 +10,7 @@ def get_request(url):
     return requests.get(url)
 
 def create_url(cik):
-    return 'https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK={}&type=&dateb=&count=40&scd=filings&search_text='.format(cik)
+    return 'https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK={}&owner=exclude&count=40'.format(cik)
 
 def get_user_input():
     cik = input("Enter 10-digit CIK number: ")
