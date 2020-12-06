@@ -105,6 +105,8 @@ def main():
         results = cursor.fetchall()
         if len(results) > 0:
             print('\nExiting without updating database since this company/mutual fund has already been scraped.')
+            cursor.close()
+            cxn.close()
             break
 
         # upsert current company/mutual fund to sec_companies table
@@ -126,6 +128,10 @@ def main():
 
         # commit changes to database
         cnx.commit()
+
+        # close connection
+        cursor.close()
+        cnx.close()
 
         break
 
