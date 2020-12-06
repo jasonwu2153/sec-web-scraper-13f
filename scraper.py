@@ -1,18 +1,22 @@
-import requests
-import re
 import csv
+import re
+
 import lxml
+import requests
 from bs4 import BeautifulSoup
 
 sec_url = 'https://www.sec.gov'
 
 def get_request(url):
+    'Returns result of a http request to url.'
     return requests.get(url)
 
 def create_url(cik):
+    'Returns url of SEC 13F filings given a CIK.'
     return 'https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK={}&owner=exclude&count=40'.format(cik)
 
 def get_user_input():
+    'Prompts user to enter a CIK number.'
     cik = input('Enter 10-digit CIK number: ')
     return cik
 
@@ -33,11 +37,19 @@ company_name = re.sub(' CIK#.*$', '', company_name_text)
 document_tags = soup.findAll('a', id="documentsbutton")
 
 # for each document tag, try to find the latest primary_doc.xml file
+# note that primary_doc.xml files only appear in NPORT-P entries; these 
+# are easy to parse so I chose to search for these specifically; if a 
+# mututal fund does not have an NPORT-P filing, then nothing is scraped 
 for document_tag in document_tags:
     response = get_request(sec_url + document_tag['href'])
     soup = BeautifulSoup(response.text, "html.parser")
 
-    file_tags = soup.findAll('a', {'href': re.compile('.*primary_doc.xml$')})
+    #
+    file_tags = soup.findAll(
+        'a',
+        text='primary_doc.xml',
+        attrs={'href': re.compile('.*primary_doc.xml$')}
+    )
 
     # if there are no file tags move on to the next document url
     if len(file_tags) == 0:
@@ -48,14 +60,12 @@ for document_tag in document_tags:
     response_xml = get_request(sec_url + xml_url)
     soup_xml = BeautifulSoup(response_xml.content, "lxml")
 
+    # find all invstOrSec tags
+    invstOrSecs = soup_xml.body.findAll(re.compile('invstorsec'))
+    for invstOrSec in invstOrSecs:
+        print(invstOrSec.text)
 
     break
-
-
-
-
-
-
 
 
 '''
