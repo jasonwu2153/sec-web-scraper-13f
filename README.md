@@ -1,5 +1,5 @@
 # Yale University CPSC 437 Database SEC Python Web Scraper
-This repository contains a Python Web scraper for parsing 13F filings (mutual fund holdings) from SEC's website, [EDGAR](https://www.sec.gov/edgar/searchedgar/companysearch.html). We (Jason Wu, Michael Lewkowicz, Kevin Zhang - Yale undergrads) forked this repository from [CodeWritingCow](https://github.com/CodeWritingCow/sec-web-scraper-13f). 
+This repository contains a Python Web scraper for parsing NPORT-P filings (fund holdings) from SEC's website, [EDGAR](https://www.sec.gov/edgar/searchedgar/companysearch.html). We (Jason Wu, Michael Lewkowicz, Kevin Zhang - Yale undergrads) forked this repository from [CodeWritingCow](https://github.com/CodeWritingCow/sec-web-scraper-13f). 
 
 In this fork, we modified the original code to work with the new Edgar website (as of Dec 5th, 2020). These modifications were very signficant. If you look at our web scraper next to the original repo, the code is almost completely different, though we re-use some of the original helper functions written by CodeWritingCow stored in `helper.py`. In addition, we have made the following modifications:
 
