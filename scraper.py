@@ -113,8 +113,8 @@ def main():
 
         # add each holding to holdings table
         print('\nAdding holdings to holdings table...')
-        insert_holdings_statement = insert_holdings_sql(holdings_data)
-        # cursor.execute(insert_holdings_statement)
+        holding_tuples = list(map(lambda x: (x['held_by'], x['isin'], x['units'], x['balance'], x['val_usd']), holdings_data))
+        cursor.executemany(insert_holdings_sql, holding_tuples)
         print('Updated holdings table successfully. 👍')
 
         # commit changes to database
