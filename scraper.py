@@ -56,33 +56,33 @@ def main():
         print('Xml file fetched! 😊')
         print('\nParsing Progress:')
 
-        stock_data = []
+        legal_entity_data = []
         holdings_data = []
 
         # find all holdings
         invstOrSecs = soup_xml.body.findAll(re.compile('invstorsec'))
         for invstOrSec in tqdm(invstOrSecs, bar_format='{l_bar}{bar:20}{r_bar}{bar:-20b}'):
-            stock = {}
+            legal_entity = {}
             holding = { 'held_by': requested_cik }
 
-            # parse isin (if there is no isin value we skip it)
-            isin_text = invstOrSec.find('identifiers').find('isin')
-            if not isin_text:
-                continue 
-            stock['isin'] = isin_text.get('value')
-            holding['isin'] = isin_text.get('value')
+            # parse lei (if there is no lei value we skip it)
+            lei_text = invstOrSec.find('lei').text
+            if not lei_text:
+                continue
+            legal_entity['lei'] = lei_text
+            holding['lei'] = lei_text
 
             # parse name and title
             name_text = invstOrSec.find('name').text
             title_text = invstOrSec.find('title').text
-            stock['name'] = name_text if name_text != 'N/A' else None
-            stock['title'] = title_text if title_text != 'N/A' else None
+            legal_entity['name'] = name_text if name_text != 'N/A' else None
+            legal_entity['title'] = title_text if title_text != 'N/A' else None
 
-            # parse lei and cusip
-            lei_text = invstOrSec.find('lei').text
+            # parse isin & cusip
+            isin_text = invstOrSec.find('identifiers').find('isin')
             cusip_text = invstOrSec.find('cusip').text 
-            stock['lei'] = lei_text if lei_text != 'N/A' else None 
-            stock['cusip'] = cusip_text if cusip_text != 'N/A' else None 
+            holding['isin'] = isin_text.get('value') if isin_text else None
+            holding['cusip'] = cusip_text if cusip_text != 'N/A' else None 
 
             # parse units, balance, and value in USD if applicable (if the 
             # value is not in USD we skip it)
@@ -94,7 +94,7 @@ def main():
             holding['val_usd'] = int(float(val_usd_text)) if val_usd_text != 'N/A' else 0
 
             # store data
-            stock_data.append(stock)
+            legal_entity_data.append(legal_entity)
             holdings_data.append(holding)
 
         # create db cursor

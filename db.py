@@ -7,5 +7,5 @@ cnx = connector.connect(
     host="localhost",
     user="root",
     password="",
-    database="stock_scrape"
+    database="sec_scrape"
 )
