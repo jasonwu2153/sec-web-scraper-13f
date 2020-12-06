@@ -109,20 +109,20 @@ def main():
             cnx.close()
             break
 
-        # upsert current company/mutual fund to sec_companies table
-        print('\nAdding company/mutual fund to sec_companies table...')
+        # upsert current fund to sec_companies table
+        print('\nAdding fund to sec_companies table...')
         cursor.execute(insert_sec_company_sql, (requested_cik, company_name))
         print('Updated sec_companies table successfully. 👍')
 
-        # upsert each stock to stock table
-        print('\nAdding stocks to stocks table...')
-        stock_tuples = list(map(lambda x: (x['isin'], x['name'], x['title'], x['lei'], x['cusip']), stock_data))
+        # upsert each legal entity to legal_entities table
+        print('\nAdding legal entities to legal_entities table...')
+        stock_tuples = list(map(lambda x: (x['lei'], x['name'], x['title']), legal_entity_data))
         cursor.executemany(insert_legal_entity_sql, stock_tuples)
-        print('Updated stocks table successfully. 👍')
+        print('Updated legal_entities table successfully. 👍')
 
         # add each holding to holdings table
         print('\nAdding holdings to holdings table...')
-        holding_tuples = list(map(lambda x: (x['held_by'], x['isin'], x['units'], x['balance'], x['val_usd']), holdings_data))
+        holding_tuples = list(map(lambda x: (x['held_by'], x['lei'], x['isin'], x['cusip'], x['units'], x['balance'], x['val_usd']), holdings_data))
         cursor.executemany(insert_holdings_sql, holding_tuples)
         print('Updated holdings table successfully. 👍')
 
