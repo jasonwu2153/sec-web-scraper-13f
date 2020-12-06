@@ -6,7 +6,7 @@ from tqdm import tqdm
 
 from db import cnx
 from helpers import create_url, get_request, get_user_input, sec_url
-from sql import insert_sec_company_sql, insert_stocks_sql, insert_holdings_sql
+from sql import check_sec_company_present, insert_sec_company_sql, insert_stocks_sql, insert_holdings_sql
 
 def main():
     # ask user for CIK number
@@ -99,6 +99,13 @@ def main():
 
         # create db cursor
         cursor = cnx.cursor()
+
+        # check if cik number already in database
+        cursor.execute(check_sec_company_present, requested_cik)
+        results = cursor.fetchall()
+        if len(results) > 0:
+            print('\nExiting without updating database since this company/mutual fund has already been scraped.')
+            break
 
         # upsert current company/mutual fund to sec_companies table
         print('\nAdding company/mutual fund to sec_companies table...')
