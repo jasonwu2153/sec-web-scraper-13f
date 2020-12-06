@@ -4,9 +4,7 @@ checking whether a stock has already been inserted into the database before inse
 every single time is expensive. Instead, if we get a duplicate key error we ignore it. 
 '''
 
-def insert_sec_company_sql(cik, name):
-    'Returns sql statement for inserting one new entry into sec_companies table.'
-    return f'INSERT IGNORE INTO sec_companies (cik, name, created_at) VALUES (\'{cik}\', \'{name}\', now());'
+insert_sec_company_sql = 'INSERT IGNORE INTO sec_companies (cik, name, created_at) VALUES (%s, %s, now());'
 
 def insert_stocks_sql(stocks):
     '''

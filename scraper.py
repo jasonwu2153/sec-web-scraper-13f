@@ -102,8 +102,7 @@ def main():
 
         # upsert current company/mutual fund to sec_companies table
         print('\nAdding company/mutual fund to sec_companies table...')
-        insert_sec_company_statement = insert_sec_company_sql(requested_cik, company_name)
-        cursor.execute(insert_sec_company_statement)
+        cursor.execute(insert_sec_company_sql, (requested_cik, company_name))
         print('Updated sec_companies table successfully. 👍')
 
         # upsert each stock to stock table
