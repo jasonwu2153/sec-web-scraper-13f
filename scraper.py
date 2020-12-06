@@ -101,7 +101,7 @@ def main():
         cursor = cnx.cursor()
 
         # check if cik number already in database
-        cursor.execute(check_sec_company_present, requested_cik)
+        cursor.execute(check_sec_company_present, (requested_cik,))
         results = cursor.fetchall()
         if len(results) > 0:
             print('\nExiting without updating database since this company/mutual fund has already been scraped.')
