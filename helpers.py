@@ -1,7 +1,9 @@
+import requests
+
 sec_url = 'https://www.sec.gov'
 
 def get_request(url):
-'Returns result of a http request to url.'
+    'Returns result of a http request to url.'
     return requests.get(url)
 
 def create_url(cik):
