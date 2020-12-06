@@ -1,13 +1,23 @@
-# SEC Python Web Scraper
-This repository contains a Python Web scraper for parsing 13F filings (mutual fund holdings) from SEC's website, [EDGAR](https://www.sec.gov/edgar/searchedgar/companysearch.html), and writing a .tsv file from the data.
+# Yale University CPSC 437 Database SEC Python Web Scraper
+This repository contains a Python Web scraper for parsing 13F filings (mutual fund holdings) from SEC's website, [EDGAR](https://www.sec.gov/edgar/searchedgar/companysearch.html). We (Jason Wu, Michael Lewkowicz, Kevin Zhang - Yale undergrads) forked this repository from [CodeWritingCow](https://github.com/CodeWritingCow/sec-web-scraper-13f). While his repository worked back when it was posted (Jul 18th, 2019), it no longer works likely due to changes to the Edgar website that have happened since. 
 
+In this fork, we modified the original code to work with the new Edgar website (as of Dec 5th, 2020). In addition, we have made the following modifications:
+
+- Exclusively target and scrape NPORT-P filings
+- Collect issuers, total value at the time of filing, number of shares, and other relevant data
+- Directly insert this data into a mySQL database instead of a tsv file
+
+In addition, note that the documentation is a mix of the original documentation by Gary Pang (CodeWritingCow) and new documentation we've written.
 
 ## Requirements
 
 #### Getting Started
-- `pip install -r requirements.txt` (or `pipenv install` if you are using pipenv)
-- `python scraper.py` (or `pipenv run python scraper.py`)
-- When prompted, enter the 10-digit CIK number of a mutual fund
+- Make sure you have `pipenv` set up on your machine.
+- Run `pipenv install`.
+- Run `python scraper.py` within a `pipenv shell` (or `pipenv run python scraper.py`).
+- When prompted, enter the 10-digit CIK number of a mutual fund.
+- Happy investing! 
+❤️ 💵 💰
 
 #### Key Dependencies
 
@@ -15,10 +25,10 @@ This repository contains a Python Web scraper for parsing 13F filings (mutual fu
 - [lxml](https://lxml.de/), Python library for processing XML and HTML
 - [Beautiful Soup](https://pypi.org/project/beautifulsoup4/), Python library for scraping information from Web pages
 - [re](https://docs.python.org/3/library/re.html), Python module for using regular expressions
-- [csv](https://docs.python.org/3/library/csv.html), Python module for parsing and writing CSV and TSV files
 
 ## Contributor
-- [Gary Pang](https://github.com/CodeWritingCow)
+- [Jason Wu (Yale University '22)](https://github.com/jasonwu2153)
+- [Gary Pang (CodeWritingCow)](https://github.com/CodeWritingCow)
 
 ## References
 - [SEC: Frequently Asked Questions About Form 13F](https://www.sec.gov/divisions/investment/13ffaq.htm)
