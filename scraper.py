@@ -116,15 +116,15 @@ def main():
 
         # upsert each legal entity to legal_entities table
         print('\nAdding legal entities to legal_entities table...')
-        stock_tuples = list(map(lambda x: (x['lei'], x['name'], x['title']), legal_entity_data))
-        cursor.executemany(insert_legal_entity_sql, stock_tuples)
-        print('Updated legal_entities table successfully. 👍')
+        legal_entity_tuples = list(map(lambda x: (x['lei'], x['name'], x['title']), legal_entity_data))
+        cursor.executemany(insert_legal_entity_sql, legal_entity_tuples)
+        print(f'Added {len(legal_entity_tuples)} rows to legal_entities table successfully. 👍')
 
         # add each holding to holdings table
         print('\nAdding holdings to holdings table...')
         holding_tuples = list(map(lambda x: (x['held_by'], x['lei'], x['isin'], x['cusip'], x['units'], x['balance'], x['val_usd']), holdings_data))
         cursor.executemany(insert_holdings_sql, holding_tuples)
-        print('Updated holdings table successfully. 👍')
+        print(f'Added {len(holding_tuples)} rows to holdings table successfully. 👍')
 
         # commit changes to database
         cnx.commit()
