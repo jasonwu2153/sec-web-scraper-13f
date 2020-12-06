@@ -35,4 +35,7 @@ def insert_holdings_sql(holdings):
 
     Returns sql statement for inserting all of the holding entries into holdings table.
     '''
-    pass
+    header = 'INSERT INTO holdings (held_by, isin, units, balance, val_usd, created_at) VALUES'
+    holding_values = map(lambda x: f'('{x['held_by']}', '{x['isin']}', '{x['units']}', '{x['balance']}', '{x['val_usd']}')', holdings)
+    value_string = ', '.join(holding_values)
+    return header + ' ' + value_string + ';'
