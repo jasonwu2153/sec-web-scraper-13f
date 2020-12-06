@@ -16,7 +16,10 @@ def insert_stocks_sql(stocks):
 
     Returns sql statement for inserting all of the stock entries into stocks table.
     '''
-    pass 
+    header = 'INSERT INTO stocks (isin, name, title, lei, cusip, created_at) VALUES'
+    stock_values = map(lambda x: f'('{x['isin']}', '{x['name']}', '{x['title']}', '{x['lei']}', '{x['cusip']}', now())', stocks)
+    value_string = ', '.join(stock_values)
+    return header + ' ' +  value_string + ';'
 
 def insert_holdings_sql(holdings):
     '''
