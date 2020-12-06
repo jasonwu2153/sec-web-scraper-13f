@@ -27,21 +27,38 @@ soup = BeautifulSoup(response.text, 'html.parser')
 company_name_text = soup.find('span', {'class': 'companyName'}).getText()
 company_name = re.sub(' CIK#.*$', '', company_name_text)
 
+# find all document tags; a document tag 
+# links to another route containing the 
+# relevant filing docs
+document_tags = soup.findAll('a', id="documentsbutton")
+
+# for each document tag, try to find the latest primary_doc.xml file
+for document_tag in document_tags:
+    response = get_request(sec_url + document_tag['href'])
+    soup = BeautifulSoup(response.text, "html.parser")
+
+    file_tags = soup.findAll('a', {'href': re.compile('.*primary_doc.xml$')})
+
+    # if there are no file tags move on to the next document url
+    if len(file_tags) == 0:
+        continue
+
+    # ow we parse the primary_doc
+    xml_url = file_tags[0].get('href')
+    response_xml = get_request(sec_url + xml_url)
+    soup_xml = BeautifulSoup(response_xml.content, "lxml")
+
+
+    break
+
+
+
+
 
 
 
 
 '''
-tags = soup.findAll('a', id="documentsbutton")
-
-
-
-
-
-response = get_request(create_url(requested_cik))
-soup = BeautifulSoup(response.text, "html.parser")
-tags = soup.findAll('a', id="documentsbutton")
-
 # Find latest 13F report for mutual fund
 response_two = get_request(sec_url + tags[1]['href'])
 soup_two = BeautifulSoup(response_two.text, "html.parser")
