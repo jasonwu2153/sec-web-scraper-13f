@@ -67,7 +67,7 @@ def main():
 
             # parse lei (if there is no lei value we skip it)
             lei_text = invstOrSec.find('lei').text
-            if not lei_text:
+            if not lei_text or lei_text == 'N/A':
                 continue
             legal_entity['lei'] = lei_text
             holding['lei'] = lei_text
